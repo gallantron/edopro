@@ -131,8 +131,11 @@ bool ClientCard::client_card_sort(ClientCard* c1, ClientCard* c2) {
 	ClientCard* e2 = (c2->overlayTarget != nullptr) ? c2->overlayTarget : c2;
 	// if they are attached to the same thing, shortcut:
 	if (e1 == e2) {
-		if ((c1->overlayTarget != nullptr) != (c2->overlayTarget != nullptr))
-			return c1->overlayTarget != nullptr;
+		if ((c1->overlayTarget != nullptr) != (c2->overlayTarget != nullptr)) {
+			// if only one is attached, the non-attached card comes first
+			return c1->overlayTarget == nullptr;
+		}
+		// if both are attached, order by sequence
 		return c1->sequence < c2->sequence;
 	}
 	// player cards go before opponent cards
